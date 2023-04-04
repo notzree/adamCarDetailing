@@ -105,8 +105,8 @@ export default function Home() {
         <div className="flex w-full h-[10vh] bg-accent"></div>
         <div className="p-10 w-full h-full bg-primary text-accent gap-6 flex flex-col justify-center items-center">
           <h1 className="text-4xl">BOOK NOW</h1>
-          <div className="flex flex-row gap-10 justify-center items-center">
-            <div className="flex flex-col gap-2 w-2/5 h-full">
+          <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
+            <div className="flex flex-col gap-2 md:w-2/5 h-full">
               <h3 className="text-xl">What happens next?</h3>
               <p>
                 Once you fill out the form, we'll send you a booking
@@ -136,12 +136,12 @@ export default function Home() {
                 </GoogleMapReact>
               </div>
             </div>
-            <div>
+            <div className="w-full md:w-fit">
               <h3 className="text-xl pb-4">Your contact details</h3>
               
               <form
                 onSubmit={handleSubmit}
-                className="flex flex-col gap-4 w-[35vw]"
+                className="flex flex-col gap-4 md:w-[35vw] "
               >
                 <input
                   type="text"
