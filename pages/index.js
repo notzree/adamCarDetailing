@@ -4,8 +4,8 @@ import { useState } from "react";
 import { toast } from "react-hot-toast";
 import GoogleMapReact from "google-map-react";
 import { Icon } from "@iconify/react";
-
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import dayjs from 'dayjs';
+import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
 export default function Home() {
   
@@ -28,7 +28,7 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
-
+  const [date, setDate] = useState('')
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -173,9 +173,11 @@ export default function Home() {
                   placeholder="Email address"
                   className="placeholder-accent ph placeholder-opacity-50 bg-secondary input w-full"
                 />
-                <DateTimePicker label="Pick your time" />
+                <MobileDateTimePicker 
+                defaultValue={dayjs()}
+                className="bg-secondary rounded-md" sx={{".MuiInputBase-input": {color: "#c1c1c1"}, ".MuiOutlinedInput-notchedOutline":{borderColor: "#2A303C",}}} />
                 <button
-                  className="btn bg-accent border-none text-primary text-base"
+                  className="btn bg-accent border-none text-primary text-base "
                   type="submit"
                 >
                   Submit Booking
