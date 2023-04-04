@@ -6,6 +6,8 @@ import { Gallery } from "react-grid-gallery";
 import GoogleMapReact from "google-map-react";
 import { Icon } from "@iconify/react";
 
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
 export default function Home() {
   const imgs = [
     {
@@ -61,7 +63,7 @@ export default function Home() {
     if (!validateEmail(email) || !validatePhoneNumber(number)) {
       return;
     }
-
+    //Change this later.
     const now = new Date();
 
     const data = {
@@ -139,6 +141,7 @@ export default function Home() {
             </div>
             <div>
               <h3 className="text-xl pb-4">Your contact details</h3>
+              
               <form
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-4 w-[35vw]"
@@ -173,6 +176,7 @@ export default function Home() {
                   placeholder="Email address"
                   className="placeholder-accent ph placeholder-opacity-50 bg-secondary input w-full"
                 />
+                <DateTimePicker label="Pick your time" />
                 <button
                   className="btn bg-accent border-none text-primary text-base"
                   type="submit"
