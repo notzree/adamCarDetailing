@@ -16,5 +16,5 @@ model Booking {
   date        DateTime ? 
   name        String   @db.VarChar(255)
   email       String   @db.VarChar(255)
-  phonenumber String   @db.VarChar(255)
+  phonenumber String   @db.VarChar(255) @unique
 }
