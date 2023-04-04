@@ -3,7 +3,14 @@ import prisma from '@/lib/prisma'
 export default async function handler(req, res) {
     // Get data submitted in request's body.
     const body = JSON.parse(req.body)
-    
+    const alreadyBooked = await prisma.Booking.findUnique({
+      where:{
+        phonenumber: body.phonenumber
+      }
+    })
+    if(alreadyBooked!=null){
+      res.status(403).json({response : "alreadyBooked"});
+    }
     const newBooking = await prisma.Booking.create({
         data:{
         name: body.name,
@@ -13,6 +20,6 @@ export default async function handler(req, res) {
         },
       })
       if(newBooking){
-        res.status(200);
+        res.status(200).json({response : "Success"});
       }
   }
