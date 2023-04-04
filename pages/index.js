@@ -6,9 +6,25 @@ import GoogleMapReact from "google-map-react";
 import { Icon } from "@iconify/react";
 import dayjs from 'dayjs';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function Home() {
-  
+
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#F87272",
+        light: "#F87272",
+        dark: "#F87272",
+      }
+    },
+    typography: {
+      fontFamily: [
+        'sans-serif'
+      ].join(','),
+    },
+  });
+
   const defaultProps = {
     center: {
       lat: 43.785935943655645,
@@ -173,9 +189,14 @@ export default function Home() {
                   placeholder="Email address"
                   className="placeholder-accent ph placeholder-opacity-50 bg-secondary input w-full"
                 />
-                <MobileDateTimePicker 
-                defaultValue={dayjs()}
-                className="bg-secondary rounded-md" sx={{".MuiInputBase-input": {color: "#c1c1c1"}, ".MuiOutlinedInput-notchedOutline":{borderColor: "#2A303C",}}} />
+
+                <h3 className="text-xl pt-2">Select a time</h3>
+                <ThemeProvider theme={theme}>
+                  <MobileDateTimePicker 
+                  defaultValue={dayjs()}
+                  className="bg-secondary rounded-lg" 
+                  sx={{".MuiInputBase-input": {color: "#c1c1c1"}, ".MuiOutlinedInput-notchedOutline":{borderStyle: "None"}}} />
+                </ThemeProvider>
                 <button
                   className="btn bg-accent border-none text-primary text-base "
                   type="submit"
