@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
-export default function Home() {
+export default function Home({}) {
   const itemData = [
     {
       img: 'beautiful-car-washing-service (1).jpg',
@@ -91,7 +91,11 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(dayjs().set('minute',0))
+  const nineAM = dayjs().set('hour', 9)
+  const eightPM = dayjs().set('hour', 20)
+  const april10th = dayjs('2023-04-10');
+  const april7th = dayjs('2023-04-7'); //starts 2pm
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -118,13 +122,14 @@ export default function Home() {
       return;
     }
     //Change this later.
-    const now = new Date();
+    const selectedDate = date;
+
 
     const data = {
       name: name,
       phonenumber: number,
       email: email,
-      date: now,
+      date: selectedDate,
     };
 
     const response = await fetch("/api/handleSubmit", {
@@ -136,7 +141,12 @@ export default function Home() {
           toast.error(
             "Sorry, we are currently only taking 1 booking per customer"
           );
-        } else {
+        } else if (response.status ==402){
+          toast.error(
+            "Sorry, that timeslot is full"
+          );
+        }
+        else {
           toast.error("Something went wrong.");
         }
       } else {
@@ -144,7 +154,7 @@ export default function Home() {
       }
     });
   };
-
+  
   return (
     <>
       <Head>
@@ -186,9 +196,9 @@ export default function Home() {
             <div className="flex flex-col gap-2 md:w-2/5 h-full">
               <h3 className="text-xl">What happens next?</h3>
               <p>
-                Once you fill out the form, we'll send you a booking
+                Once you fill out the form, we&apos;ll send you a booking
                 confirmation. At the date and time of your booking, come to the
-                location below with your vehicle.
+                location below with your vehicle. The detailing will take about an hour. You will be informed once your vehicle is ready for pickup.
               </p>
               <h3 className="text-xl pt-5">Business Information</h3>
               <p>
@@ -254,7 +264,17 @@ export default function Home() {
                 <h3 className="text-xl pt-2">Select a time</h3>
                 <ThemeProvider theme={theme}>
                   <MobileDateTimePicker
-                    defaultValue={dayjs()}
+                  onChange={(e) =>{
+                    if(e!=null){
+                      setDate(e.$d);
+                    }
+                  }}
+                  minDate={april7th}
+                  maxDate={april10th}
+                  maxTime={eightPM}
+                  minTime={nineAM}
+                  shouldDisableTime={(value, view) => view === 'minutes' && value.minute() >=0}
+                    
                     className="bg-secondary rounded-lg"
                     sx={{
                       ".MuiInputBase-input": { color: "#c1c1c1" },
