@@ -1,15 +1,16 @@
 // import prisma from '@/lib/prisma'
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'
+prisma = new PrismaClient();
 export default async function handler(req, res) {
-    prisma = new PrismaClient();
+    
     // Get data submitted in request's body.
     const body = JSON.parse(req.body)
-    const alreadyBooked = await prisma.Booking.findUnique({
+    const alreadyBooked = await prisma.booking.findUnique({
       where:{
         phonenumber: body.phonenumber
       }
     })
-    const enoughTime = await prisma.Booking.count({
+    const enoughTime = await prisma.booking.count({
       where:{
         date: body.date
       }
@@ -22,7 +23,7 @@ export default async function handler(req, res) {
       res.status(403).json({response : "alreadyBooked"});
       return;
     }
-    const newBooking = await prisma.Booking.create({
+    const newBooking = await prisma.booking.create({
         data:{
         name: body.name,
         phonenumber: body.phonenumber,

@@ -154,7 +154,7 @@ export default function Home({}) {
       }
     });
   };
-  console.log(date);
+  
   return (
     <>
       <Head>
