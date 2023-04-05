@@ -139,11 +139,11 @@ export default function Home({}) {
       if (!response.ok) {
         if (response.status == 403) {
           toast.error(
-            "Sorry, we are currently only taking 1 booking per customer"
+            "Sorry, we are currently only taking 1 booking per customer."
           );
         } else if (response.status ==402){
           toast.error(
-            "Sorry, that timeslot is full"
+            "Sorry, that timeslot is full."
           );
         }
         else {
@@ -169,7 +169,7 @@ export default function Home({}) {
             <h1 className="text-5xl my-2 font-bold">ADAM AND YOUSEF</h1>
             <h2 className="text-xl">Free Car Detailing</h2>
           </div>
-          <a href="#booking"><button className="btn btn-accent">BOOK NOW</button></a>
+          <a href="#booking"><button className="btn btn-error">BOOK NOW</button></a>
         </div>
         <div className="p-8 pb-20 text-primary flex flex-col justify-center items-center w-full h-full bg-accent">
           <h1 className="text-4xl pb-8">OUR WORK</h1>
@@ -193,10 +193,10 @@ export default function Home({}) {
         <div  id="booking" className="p-10 w-full h-full bg-primary text-accent gap-6 flex flex-col justify-center items-center">
           <h1 className="text-4xl">BOOK NOW</h1>
           <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
-            <div className="flex flex-col gap-2 md:w-2/5 h-full">
+            <div className="flex flex-col gap-2 w-[85%] md:w-2/5 h-full">
               <h3 className="text-xl">What happens next?</h3>
               <p>
-                Once you fill out the form, we&apos;ll send you a booking
+                Once you fill out the form, we'll send you a booking
                 confirmation. At the date and time of your booking, come to the
                 location below with your vehicle. The detailing will take about an hour. You will be informed once your vehicle is ready for pickup.
               </p>
@@ -223,7 +223,7 @@ export default function Home({}) {
                 </GoogleMapReact>
               </div>
             </div>
-            <div className="w-full md:w-fit">
+            <div className="w-[85%] md:w-fit">
               <h3 className="text-xl pb-4">Your contact details</h3>
 
               <form
@@ -239,7 +239,7 @@ export default function Home({}) {
                   className="placeholder-accent ph placeholder-opacity-50 bg-secondary input w-full"
                 />
                 {phoneNumberError && (
-                  <span className="text-red-600">{phoneNumberError}</span>
+                  <span className="text-error">{phoneNumberError}</span>
                 )}
                 <input
                   type="text"
@@ -250,7 +250,7 @@ export default function Home({}) {
                   className="placeholder-accent ph placeholder-opacity-50 bg-secondary input w-full"
                 />
                 {emailError && (
-                  <span className="text-red-600">{emailError}</span>
+                  <span className="text-error">{emailError}</span>
                 )}
                 <input
                   type="text"
@@ -275,11 +275,11 @@ export default function Home({}) {
                   minTime={nineAM}
                   shouldDisableTime={(value, view) => view === 'minutes' && value.minute() >=0}
                     
-                    className="bg-secondary rounded-lg"
+                    className="bg-secondary rounded-lg hover:ring-{2}"
                     sx={{
                       ".MuiInputBase-input": { color: "#c1c1c1" },
                       ".MuiOutlinedInput-notchedOutline": {
-                        borderStyle: "None",
+                        border: "None"
                       },
                     }}
                   />
@@ -293,6 +293,10 @@ export default function Home({}) {
               </form>
             </div>
           </div>
+        </div>
+        <div className="w-full h-full bg-primary p-10">
+          <div></div>
+          <h1 className="md:px-5 text-xl text-center md:text-end text-accent">© <a className="text-error no-underline hover:underline" href='https://www.richard-zhang.ca/' target="_blank">RICHARD</a> & <a className="text-error no-underline hover:underline" href='https://www.anniecai.com/' target="_blank">ANNIE</a> 2023</h1>
         </div>
       </main>
     </>
