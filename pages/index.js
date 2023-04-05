@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { Prisma, PrismaClient } from "@prisma/client";
-import { itemData } from "./itemData";
+
 const prisma = new PrismaClient();
 export async function getServerSideProps(context) {
   const dates = await prisma.booking.findMany({
@@ -31,7 +31,52 @@ export async function getServerSideProps(context) {
 export default function Home({datesObject}) {
   var bookedDates = Object.values(JSON.parse(datesObject)).map(item => item.date);
       bookedDates = bookedDates.map(i => dayjs(i))
-  
+      const itemData = [
+        {
+          img: 'beautiful-car-washing-service (1).jpg',
+          title: 'Car Wash 1',
+        },
+        {
+          img: 'beautiful-car-washing-service (2).jpg',
+          title: 'Car Wash 2',
+        },
+        {
+          img: 'beautiful-car-washing-service (3).jpg',
+          title: 'Car Wash 3',
+        },
+        {
+          img: 'beautiful-car-washing-service (4).jpg',
+          title: 'Car Wash 4',
+        },
+        {
+          img: 'beautiful-car-washing-service.jpg',
+          title: 'Car Wash 5',
+        },
+        {
+          img: 'car-wash-detailing-station (1).jpg',
+          title: 'Detailing Station 1',
+        },
+        {
+          img: 'car-wash-detailing-station (2).jpg',
+          title: 'Detailing Station 2',
+        },
+        {
+          img: 'car-wash-detailing-station.jpg',
+          title: 'Detailing Station 3',
+        },
+        {
+          img: 'close-up-car-care-process.jpg',
+          title: 'Close Up 1',
+        },
+        {
+          img: 'close-up-car-care-process (1).jpg',
+          title: 'Close Up 2',
+        },
+        {
+          img: 'close-up-car-care-process (2).jpg',
+          title: 'Close Up 3',
+        },
+      ];
 
   const theme = createTheme({
     palette: {
