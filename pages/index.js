@@ -58,7 +58,7 @@ export default function Home() {
       title: 'Close Up 3',
     },
   ];
-  
+
   const theme = createTheme({
     palette: {
       primary: {
@@ -154,22 +154,25 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="bg-primary">
-        <div className="p-10 flex flex-col justify-center items-center text-accent">
-          <h1 className="text-5xl my-2 font-bold">ADAM AND YOUSEF</h1>
-          <h2 className="text-xl">Free Car Detailing</h2>
+        <div className="p-10 flex flex-col md:flex-row md:gap-[28vw] gap-[5vw] justify-center items-center text-accent">
+          <div className="flex flex-col text-center md:text-start">
+            <h1 className="text-5xl my-2 font-bold">ADAM AND YOUSEF</h1>
+            <h2 className="text-xl">Free Car Detailing</h2>
+          </div>
+          <a href="#booking"><button className="btn btn-accent">BOOK NOW</button></a>
         </div>
-        <div className="text-primary flex flex-col justify-center items-center w-full h-full bg-accent">
-          <h1 className="text-4xl p-10">OUR WORK</h1>
+        <div className="p-8 pb-20 text-primary flex flex-col justify-center items-center w-full h-full bg-accent">
+          <h1 className="text-4xl pb-8">OUR WORK</h1>
           <div className="w-full h-full flex justify-center items-center">
-            <Box sx={{ width: "77%", height: "100%"}}>
-              <ImageList variant="masonry" cols={3} gap={8}>
+            <Box sx={{ width: "80%", height: "100%" }}>
+              <ImageList variant="masonry" cols={2} gap={8}>
                 {itemData.map((item) => (
                   <ImageListItem key={item.img}>
                     <img
                       src={`${item.img}?w=248&fit=crop&auto=format`}
                       srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                       alt={item.title}
-                      loading="lazy"
+                      
                     />
                   </ImageListItem>
                 ))}
@@ -177,8 +180,7 @@ export default function Home() {
             </Box>
           </div>
         </div>
-        <div className="flex w-full h-[10vh] bg-accent"></div>
-        <div className="p-10 w-full h-full bg-primary text-accent gap-6 flex flex-col justify-center items-center">
+        <div  id="booking" className="p-10 w-full h-full bg-primary text-accent gap-6 flex flex-col justify-center items-center">
           <h1 className="text-4xl">BOOK NOW</h1>
           <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
             <div className="flex flex-col gap-2 md:w-2/5 h-full">
