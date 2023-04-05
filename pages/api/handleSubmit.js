@@ -1,9 +1,8 @@
 // import prisma from '@/lib/prisma'
-import { PrismaClient } from '@prisma/client'
-
+import { Prisma, PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
 export default async function handler(req, res) {
-  prisma = new PrismaClient();    
-    // Get data submitted in request's body.
+  try{
     const body = JSON.parse(req.body)
     const alreadyBooked = await prisma.booking.findUnique({
       where:{
@@ -34,4 +33,9 @@ export default async function handler(req, res) {
       if(newBooking){
         res.status(200).json({response : "Success"});
       }
+  } catch (e) {
+    res.status(400).json({ message: "Something went wrong" });
+  }
+  
+    
   }
