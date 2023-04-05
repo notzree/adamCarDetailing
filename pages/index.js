@@ -7,7 +7,7 @@ import { Icon } from "@iconify/react";
 import dayjs from 'dayjs';
 import { MobileDateTimePicker } from '@mui/x-date-pickers/MobileDateTimePicker';
 
-export default function Home() {
+export default function Home({}) {
   
   const defaultProps = {
     center: {
@@ -28,7 +28,11 @@ export default function Home() {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
-  const [date, setDate] = useState('')
+  const [date, setDate] = useState(dayjs().set('minute',0))
+  const nineAM = dayjs().set('hour', 9)
+  const eightPM = dayjs().set('hour', 20)
+  const april10th = dayjs('2023-04-10');
+  const april7th = dayjs('2023-04-7'); //starts 2pm
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -55,13 +59,14 @@ export default function Home() {
       return;
     }
     //Change this later.
-    const now = new Date();
+    const selectedDate = date;
+
 
     const data = {
       name: name,
       phonenumber: number,
       email: email,
-      date: now,
+      date: selectedDate,
     };
 
     const response = await fetch("/api/handleSubmit", {
@@ -73,7 +78,12 @@ export default function Home() {
           toast.error(
             "Sorry, we are currently only taking 1 booking per customer"
           );
-        } else {
+        } else if (response.status ==402){
+          toast.error(
+            "Sorry, that timeslot is full"
+          );
+        }
+        else {
           toast.error("Something went wrong.");
         }
       } else {
@@ -81,7 +91,7 @@ export default function Home() {
       }
     });
   };
-
+  console.log(date);
   return (
     <>
       <Head>
@@ -111,7 +121,7 @@ export default function Home() {
               <p>
                 Once you fill out the form, we'll send you a booking
                 confirmation. At the date and time of your booking, come to the
-                location below with your vehicle.
+                location below with your vehicle. The detailing will take about an hour. You will be informed once your vehicle is ready for pickup.
               </p>
               <h3 className="text-xl pt-5">Business Information</h3>
               <p>
@@ -173,8 +183,18 @@ export default function Home() {
                   placeholder="Email address"
                   className="placeholder-accent ph placeholder-opacity-50 bg-secondary input w-full"
                 />
-                <MobileDateTimePicker 
-                defaultValue={dayjs()}
+                
+                <MobileDateTimePicker
+                onChange={(e) =>{
+                  if(e!=null){
+                    setDate(e.$d);
+                  }
+                }}
+                minDate={april7th}
+                maxDate={april10th}
+                maxTime={eightPM}
+                minTime={nineAM}
+                shouldDisableTime={(value, view) => view === 'minutes' && value.minute() >=0}
                 className="bg-secondary rounded-md" sx={{".MuiInputBase-input": {color: "#c1c1c1"}, ".MuiOutlinedInput-notchedOutline":{borderColor: "#2A303C",}}} />
                 <button
                   className="btn bg-accent border-none text-primary text-base "

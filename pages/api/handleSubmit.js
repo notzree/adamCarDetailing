@@ -8,8 +8,18 @@ export default async function handler(req, res) {
         phonenumber: body.phonenumber
       }
     })
+    const enoughTime = await prisma.Booking.count({
+      where:{
+        date: body.date
+      }
+    })
+     if (enoughTime >=2){
+      res.status(402).json({response : "alreadyBooked"});
+      return;
+     }
     if(alreadyBooked!=null){
       res.status(403).json({response : "alreadyBooked"});
+      return;
     }
     const newBooking = await prisma.Booking.create({
         data:{
