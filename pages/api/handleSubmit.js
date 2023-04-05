@@ -1,6 +1,7 @@
-import prisma from '@/lib/prisma'
-
+// import prisma from '@/lib/prisma'
+import { PrismaClient } from '@prisma/client';
 export default async function handler(req, res) {
+    prisma = new PrismaClient();
     // Get data submitted in request's body.
     const body = JSON.parse(req.body)
     const alreadyBooked = await prisma.Booking.findUnique({
