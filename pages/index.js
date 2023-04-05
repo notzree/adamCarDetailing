@@ -11,7 +11,7 @@ import Box from "@mui/material/Box";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 
-export default function Home({}) {
+export default function Home({ }) {
   const itemData = [
     {
       img: 'beautiful-car-washing-service (1).jpg',
@@ -91,11 +91,12 @@ export default function Home({}) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
-  const [date, setDate] = useState(dayjs().set('minute',0))
+  const [date, setDate] = useState(dayjs().set('minute', 0))
   const nineAM = dayjs().set('hour', 9)
   const eightPM = dayjs().set('hour', 20)
   const april10th = dayjs('2023-04-10');
   const april7th = dayjs('2023-04-7'); //starts 2pm
+
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -121,9 +122,9 @@ export default function Home({}) {
     if (!validateEmail(email) || !validatePhoneNumber(number)) {
       return;
     }
+
     //Change this later.
     const selectedDate = date;
-
 
     const data = {
       name: name,
@@ -131,6 +132,25 @@ export default function Home({}) {
       email: email,
       date: selectedDate,
     };
+
+    const addToSpreadSheet = async (name, number, email, date) => {
+      const doc = new GoogleSpreadsheet(
+        process.env.REACT_APP_GOOGLE_SPREADSHEET_ID
+      );
+
+      await doc.useServiceAccountAuth({
+        client_email: process.env.REACT_APP_GOOGLE_SERVICE_ACCOUNT_EMAIL,
+        private_key: process.env.REACT_APP_GOOGLE_PRIVATE_KEY.replace(
+          /\\n/g,
+          "\n"
+        ),
+      });
+
+      await doc.loadInfo();
+      const sheet = doc.sheetsByTitle["Sheet 1"];
+      await sheet.loadCells();
+      await sheet.addRow({ Name: name, Number: number, Email: email, Date: date })
+    }
 
     const response = await fetch("/api/handleSubmit", {
       method: "POST",
@@ -141,7 +161,7 @@ export default function Home({}) {
           toast.error(
             "Sorry, we are currently only taking 1 booking per customer."
           );
-        } else if (response.status ==402){
+        } else if (response.status == 402) {
           toast.error(
             "Sorry, that timeslot is full."
           );
@@ -150,11 +170,12 @@ export default function Home({}) {
           toast.error("Something went wrong.");
         }
       } else {
+        addToSpreadSheet(data[0], data[1], data[2], data[3]);
         toast.success("Thank you for booking!");
       }
     });
-  };
-  
+  }
+
   return (
     <>
       <Head>
@@ -182,7 +203,6 @@ export default function Home({}) {
                       src={`${item.img}?w=248&fit=crop&auto=format`}
                       srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                       alt={item.title}
-                      
                     />
                   </ImageListItem>
                 ))}
@@ -190,7 +210,7 @@ export default function Home({}) {
             </Box>
           </div>
         </div>
-        <div  id="booking" className="p-10 w-full h-full bg-primary text-accent gap-6 flex flex-col justify-center items-center">
+        <div id="booking" className="p-10 w-full h-full bg-primary text-accent gap-6 flex flex-col justify-center items-center">
           <h1 className="text-4xl">BOOK NOW</h1>
           <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
             <div className="flex flex-col gap-2 w-[85%] md:w-2/5 h-full">
@@ -264,17 +284,17 @@ export default function Home({}) {
                 <h3 className="text-xl pt-2">Select a time</h3>
                 <ThemeProvider theme={theme}>
                   <MobileDateTimePicker
-                  onChange={(e) =>{
-                    if(e!=null){
-                      setDate(e.$d);
-                    }
-                  }}
-                  minDate={april7th}
-                  maxDate={april10th}
-                  maxTime={eightPM}
-                  minTime={nineAM}
-                  shouldDisableTime={(value, view) => view === 'minutes' && value.minute() >=0}
-                    
+                    onChange={(e) => {
+                      if (e != null) {
+                        setDate(e.$d);
+                      }
+                    }}
+                    minDate={april7th}
+                    maxDate={april10th}
+                    maxTime={eightPM}
+                    minTime={nineAM}
+                    shouldDisableTime={(value, view) => view === 'minutes' && value.minute() >= 0}
+
                     className="bg-secondary rounded-lg hover:ring-{2}"
                     sx={{
                       ".MuiInputBase-input": { color: "#c1c1c1" },
@@ -295,10 +315,13 @@ export default function Home({}) {
           </div>
         </div>
         <div className="w-full h-full bg-primary p-10">
-          <div></div>
-          <h1 className="md:px-5 text-xl text-center md:text-end text-accent">© <a className="text-error no-underline hover:underline" href='https://www.richard-zhang.ca/' target="_blank">RICHARD</a> & <a className="text-error no-underline hover:underline" href='https://www.anniecai.com/' target="_blank">ANNIE</a> 2023</h1>
+          <h1 className="md:px-5 text-xl text-center md:text-end text-accent">
+            © <a className="text-error no-underline hover:underline" href='https://www.richard-zhang.ca/' target="_blank">RICHARD </a>
+             & <a className="text-error no-underline hover:underline" href='https://www.anniecai.com/' target="_blank">ANNIE </a>
+             2023</h1>
         </div>
       </main>
     </>
   );
-}
+};
+
