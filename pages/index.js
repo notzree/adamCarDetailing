@@ -281,7 +281,7 @@ export default function Home({datesObject}) {
           </div>
         </div>
         <div className="w-full h-full bg-primary p-10">
-          <h1 className="md:px-5 text-xl text-center md:text-end text-accent">
+          <h1 className="md:px-5 text-xl text-center md:text-end text-accent"> Developed and designed by 
             © <a className="text-error no-underline hover:underline" href='https://www.richard-zhang.ca/' target="_blank">RICHARD </a>
              & <a className="text-error no-underline hover:underline" href='https://www.anniecai.com/' target="_blank">ANNIE </a>
              2023</h1>
