@@ -194,7 +194,7 @@ export default function Home({}) {
             <div className="flex flex-col gap-2 md:w-2/5 h-full">
               <h3 className="text-xl">What happens next?</h3>
               <p>
-                Once you fill out the form, we'll send you a booking
+                Once you fill out the form, we&apos;ll send you a booking
                 confirmation. At the date and time of your booking, come to the
                 location below with your vehicle. The detailing will take about an hour. You will be informed once your vehicle is ready for pickup.
               </p>
@@ -272,7 +272,7 @@ export default function Home({}) {
                   maxTime={eightPM}
                   minTime={nineAM}
                   shouldDisableTime={(value, view) => view === 'minutes' && value.minute() >=0}
-                    defaultValue={dayjs()}
+                    
                     className="bg-secondary rounded-lg"
                     sx={{
                       ".MuiInputBase-input": { color: "#c1c1c1" },
