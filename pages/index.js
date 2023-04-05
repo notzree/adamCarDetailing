@@ -10,6 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
+const { GoogleSpreadsheet } = require('google-spreadsheet');
 
 export default function Home({ }) {
   const itemData = [
@@ -133,29 +134,14 @@ export default function Home({ }) {
       date: selectedDate,
     };
 
-    const addToSpreadSheet = async (name, number, email, date) => {
-      const doc = new GoogleSpreadsheet(
-        process.env.REACT_APP_GOOGLE_SPREADSHEET_ID
-      );
+   
 
-      await doc.useServiceAccountAuth({
-        client_email: process.env.REACT_APP_GOOGLE_SERVICE_ACCOUNT_EMAIL,
-        private_key: process.env.REACT_APP_GOOGLE_PRIVATE_KEY.replace(
-          /\\n/g,
-          "\n"
-        ),
-      });
-
-      await doc.loadInfo();
-      const sheet = doc.sheetsByTitle["Sheet 1"];
-      await sheet.loadCells();
-      await sheet.addRow({ Name: name, Number: number, Email: email, Date: date })
-    }
+ 
 
     const response = await fetch("/api/handleSubmit", {
       method: "POST",
       body: JSON.stringify(data),
-    }).then((response) => {
+    }).then(async (response) =>  {
       if (!response.ok) {
         if (response.status == 403) {
           toast.error(
@@ -170,8 +156,14 @@ export default function Home({ }) {
           toast.error("Something went wrong.");
         }
       } else {
-        addToSpreadSheet(data[0], data[1], data[2], data[3]);
-        toast.success("Thank you for booking!");
+        const spreadSheetResponse = await fetch("api/spreadsheet", {
+          body: JSON.stringify(data)
+        })
+        .then((response)=>{
+          if(response.ok){
+            toast.success("Thank you for booking!");
+          }
+        })
       }
     });
   }
