@@ -65,11 +65,12 @@ export default function Home({datesObject}) {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
-  const [date, setDate] = useState(dayjs().set('minute',0))
+  const [date, setDate] = useState(dayjs().set('minute', 0))
   const nineAM = dayjs().set('hour', 9)
   const eightPM = dayjs().set('hour', 20)
   const april10th = dayjs('2023-04-10');
   const april7th = dayjs('2023-04-7'); //starts 2pm
+
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
@@ -104,13 +105,13 @@ export default function Home({datesObject}) {
     const response = await fetch("/api/handleSubmit", {
       method: "POST",
       body: JSON.stringify(data),
-    }).then((response) => {
+    }).then(async (response) =>  {
       if (!response.ok) {
         if (response.status == 403) {
           toast.error(
             "Sorry, we are currently only taking 1 booking per customer."
           );
-        } else if (response.status ==402){
+        } else if (response.status == 402) {
           toast.error(
             "Sorry, that timeslot is full."
           );
@@ -119,11 +120,19 @@ export default function Home({datesObject}) {
           toast.error("Something went wrong.");
         }
       } else {
-        toast.success("Thank you for booking!");
+        const spreadSheetResponse = await fetch("api/spreadsheet", {
+          method: "POST",
+          body: JSON.stringify(data)
+        })
+        .then((response)=>{
+          if(response.ok){
+            toast.success("Thank you for booking!");
+          }
+        })
       }
     });
-  };
-  
+  }
+
   return (
     <>
       <Head>
@@ -151,7 +160,7 @@ export default function Home({datesObject}) {
                       src={`${item.img}?w=248&fit=crop&auto=format`}
                       srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
                       alt={item.title}
-                      
+                      className="rounded-lg"
                     />
                   </ImageListItem>
                 ))}
@@ -159,13 +168,13 @@ export default function Home({datesObject}) {
             </Box>
           </div>
         </div>
-        <div  id="booking" className="p-10 w-full h-full bg-primary text-accent gap-6 flex flex-col justify-center items-center">
+        <div id="booking" className="p-10 w-full h-full bg-primary text-accent gap-6 flex flex-col justify-center items-center">
           <h1 className="text-4xl">BOOK NOW</h1>
           <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
             <div className="flex flex-col gap-2 w-[85%] md:w-2/5 h-full">
               <h3 className="text-xl">What happens next?</h3>
               <p>
-                Once you fill out the form, we'll send you a booking
+                Once you fill out the form, we&apos;ll send you a booking
                 confirmation. At the date and time of your booking, come to the
                 location below with your vehicle. The detailing will take about an hour. You will be informed once your vehicle is ready for pickup.
               </p>
@@ -272,10 +281,13 @@ export default function Home({datesObject}) {
           </div>
         </div>
         <div className="w-full h-full bg-primary p-10">
-          <div></div>
-          <h1 className="md:px-5 text-xl text-center md:text-end text-accent">© <a className="text-error no-underline hover:underline" href='https://www.richard-zhang.ca/' target="_blank">RICHARD</a> & <a className="text-error no-underline hover:underline" href='https://www.anniecai.com/' target="_blank">ANNIE</a> 2023</h1>
+          <h1 className="md:px-5 text-xl text-center md:text-end text-accent">
+            © <a className="text-error no-underline hover:underline" href='https://www.richard-zhang.ca/' target="_blank">RICHARD </a>
+             & <a className="text-error no-underline hover:underline" href='https://www.anniecai.com/' target="_blank">ANNIE </a>
+             2023</h1>
         </div>
       </main>
     </>
   );
-}
+};
+
