@@ -10,7 +10,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
-const { GoogleSpreadsheet } = require('google-spreadsheet');
+
 
 export default function Home({ }) {
   const itemData = [
@@ -157,6 +157,7 @@ export default function Home({ }) {
         }
       } else {
         const spreadSheetResponse = await fetch("api/spreadsheet", {
+          method: "POST",
           body: JSON.stringify(data)
         })
         .then((response)=>{
@@ -209,7 +210,7 @@ export default function Home({ }) {
             <div className="flex flex-col gap-2 w-[85%] md:w-2/5 h-full">
               <h3 className="text-xl">What happens next?</h3>
               <p>
-                Once you fill out the form, we'll send you a booking
+                Once you fill out the form, we&apos;ll send you a booking
                 confirmation. At the date and time of your booking, come to the
                 location below with your vehicle. The detailing will take about an hour. You will be informed once your vehicle is ready for pickup.
               </p>
