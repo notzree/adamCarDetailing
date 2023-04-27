@@ -260,7 +260,7 @@ export default function Home({ datesObject }) {
 
               </div>
               <p>
-                Please Call us at 416-668-8858 or leave us an email at detailing.eccentric@gmail.com indicating your preferred time and package and we'll get back to you.
+                Please Call us at 416-668-8858 or leave us an email at detailing.eccentric@gmail.com indicating your preferred time and package and we&apos;ll get back to you.
               </p>
               <h3 className="text-xl pt-5">Business Information</h3>
               <p>
