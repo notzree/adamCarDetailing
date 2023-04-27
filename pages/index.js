@@ -12,51 +12,51 @@ import ImageList from "@mui/material/ImageList";
 import ImageListItem from "@mui/material/ImageListItem";
 import { Prisma, PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient();
-export async function getServerSideProps(context) {
-  const dates = await prisma.booking.findMany({
-    select: {
-      date: true,
+// const prisma = new PrismaClient();
+// export async function getServerSideProps(context) {
+//   const dates = await prisma.booking.findMany({
+//     select: {
+//       date: true,
+//     },
+//   });
+//   const datesObject = JSON.stringify(Object.assign({}, dates));
+
+
+//   return {
+//     props: {
+//        datesObject 
+//     }, 
+//   }
+// }
+export default function Home({ datesObject }) {
+  // var bookedDates = Object.values(JSON.parse(datesObject)).map(item => item.date);
+  //     bookedDates = bookedDates.map(i => dayjs(i))
+  const itemData = [
+    {
+      img: 'beautiful-car-washing-service (1).jpg',
+      title: 'Car Wash 1',
     },
-  });
-  const datesObject = JSON.stringify(Object.assign({}, dates));
-
-
-  return {
-    props: {
-       datesObject 
-    }, 
-  }
-}
-export default function Home({datesObject}) {
-  var bookedDates = Object.values(JSON.parse(datesObject)).map(item => item.date);
-      bookedDates = bookedDates.map(i => dayjs(i))
-      const itemData = [
-        {
-          img: 'beautiful-car-washing-service (1).jpg',
-          title: 'Car Wash 1',
-        },
-        {
-          img: 'beautiful-car-washing-service (2).jpg',
-          title: 'Car Wash 2',
-        },
-        {
-          img: 'beautiful-car-washing-service (3).jpg',
-          title: 'Car Wash 3',
-        },
-        {
-          img: 'beautiful-car-washing-service.jpg',
-          title: 'Car Wash 5',
-        },
-        {
-          img: 'close-up-car-care-process.jpg',
-          title: 'Close Up 1',
-        },
-        {
-          img: 'close-up-car-care-process (1).jpg',
-          title: 'Close Up 2',
-        },
-      ];
+    {
+      img: 'beautiful-car-washing-service (2).jpg',
+      title: 'Car Wash 2',
+    },
+    {
+      img: 'beautiful-car-washing-service (3).jpg',
+      title: 'Car Wash 3',
+    },
+    {
+      img: 'beautiful-car-washing-service.jpg',
+      title: 'Car Wash 5',
+    },
+    {
+      img: 'close-up-car-care-process.jpg',
+      title: 'Close Up 1',
+    },
+    {
+      img: 'close-up-car-care-process (1).jpg',
+      title: 'Close Up 2',
+    },
+  ];
 
   const theme = createTheme({
     palette: {
@@ -130,7 +130,7 @@ export default function Home({datesObject}) {
     const response = await fetch("/api/handleSubmit", {
       method: "POST",
       body: JSON.stringify(data),
-    }).then(async (response) =>  {
+    }).then(async (response) => {
       if (!response.ok) {
         if (response.status == 403) {
           toast.error(
@@ -149,11 +149,11 @@ export default function Home({datesObject}) {
           method: "POST",
           body: JSON.stringify(data)
         })
-        .then((response)=>{
-          if(response.ok){
-            toast.success("Thank you for booking!");
-          }
-        })
+          .then((response) => {
+            if (response.ok) {
+              toast.success("Thank you for booking!");
+            }
+          })
       }
     });
   }
@@ -170,7 +170,7 @@ export default function Home({datesObject}) {
         <div className="p-10 flex flex-col md:flex-row md:gap-[28vw] gap-[5vw] justify-center items-center text-accent">
           <div className="flex flex-col text-center md:text-start">
             <h1 className="text-5xl my-2 font-bold">ADAM AND YOUSEF</h1>
-            <h2 className="text-xl">Free Car Detailing</h2>
+            <h2 className="text-xl"> Car Detailing</h2>
           </div>
           <a href="#booking"><button className="btn btn-error">BOOK NOW</button></a>
         </div>
@@ -197,11 +197,70 @@ export default function Home({datesObject}) {
           <h1 className="text-4xl">BOOK NOW</h1>
           <div className="flex flex-col md:flex-row gap-10 justify-center items-center">
             <div className="flex flex-col gap-2 w-[85%] md:w-2/5 h-full">
-              <h3 className="text-xl">What happens next?</h3>
+              <h3 className="text-xl">Our Packagess</h3>
+              <div className="flex justify-evenly flex-row">
+                <div>
+                  <p>Prestige Package : $180</p>
+                  <ul>
+                    <li>
+                      Exterior Hand wash and Dry
+                    </li>
+                    <li>
+                      Interior vacuum and Trash removal
+                    </li>
+                    <li>
+                      Interior carpet shampoo
+                    </li>
+                    <li>
+                      Interior leather cleaning
+                    </li>
+                    <li>
+                      Window cleaning
+                    </li>
+                    <li>
+                      Wheel Clean
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <p>Elite package : $240</p>
+                  <ul>
+                    <li>
+                      Exterior Hand wash and Dry
+                    </li>
+                    <li>
+                      Exterior clay bar and premium
+                    </li>
+                    <li>
+                      Interior carpet shampoo
+                    </li>
+                    <li>
+                      Interior vacuum and trash removal
+                    </li>
+                    <li>
+                      Interior steam and whip down
+                    </li>
+                    <li>
+                      Wheel Clean
+                    </li>
+                    <li>
+                      Leather conditioning
+                    </li>
+                    <li>
+                      Wheel detailing
+                    </li>
+                    <li>
+                      Window Cleaning
+                    </li>
+                    <li>
+                      Engine bay
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
               <p>
-                Once you fill out the form, we&apos;ll send you a booking
-                confirmation. At the date and time of your booking, come to the
-                location below with your vehicle. The detailing will take about an hour. You will be informed once your vehicle is ready for pickup.
+                Please Call us at 416-668-8858 or leave us an email at detailing.eccentric@gmail.com indicating your preferred time and package and we'll get back to you.
               </p>
               <h3 className="text-xl pt-5">Business Information</h3>
               <p>
@@ -226,9 +285,10 @@ export default function Home({datesObject}) {
                 </GoogleMapReact>
               </div>
             </div>
-            <div className="w-[85%] md:w-fit">
-              <h3 className="text-xl pb-4">Your contact details</h3>
 
+            {/* <div className="w-[85%] md:w-fit">
+              <h3 className="text-xl pb-4">Your contact details</h3>
+               
               <form
                 onSubmit={handleSubmit}
                 className="flex flex-col gap-4 md:w-[35vw] "
@@ -295,21 +355,24 @@ export default function Home({datesObject}) {
                     }}
                   />
                 </ThemeProvider>
-                <button
-                  className="btn bg-accent border-none text-primary text-base "
-                  type="submit"
-                >
-                  Submit Booking
-                </button>
-              </form>
-            </div>
+                <button 
+                className="btn bg-accent border-none text-primary text-base "
+                type="submit"
+                  >
+                Submit Booking
+              </button>
+            </form>
+            
+            </div> */}
           </div>
+
         </div>
+
         <div className="w-full h-full bg-primary p-10">
           <h1 className="md:px-5 text-xl text-center md:text-end text-accent">
             © <a className="text-error no-underline hover:underline" href='https://www.richard-zhang.ca/' target="_blank">RICHARD </a>
-             & <a className="text-error no-underline hover:underline" href='https://www.anniecai.com/' target="_blank">ANNIE </a>
-             2023</h1>
+            & <a className="text-error no-underline hover:underline" href='https://www.anniecai.com/' target="_blank">ANNIE </a>
+            2023</h1>
         </div>
       </main>
     </>
